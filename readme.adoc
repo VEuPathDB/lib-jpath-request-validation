@@ -2,9 +2,16 @@
 :source-highlighter: highlight.js
 :highlightjs-theme: github
 :library-version: 0.1.0
+:gh-group: VEuPathDB
+:gh-name: lib-jpath-request-validation
+:lib-group: org.veupathdb.vdi
 
 A collection of tools for validating JSON requests and reporting validation
 failures using JSON path notation.
+
+image:https://img.shields.io/github/license/{gh-group}/{gh-name}[title="License"]
+image:https://img.shields.io/badge/docs-dokka-ff69b4[link="https://{gh-group}.github.io/{gh-name}"]
+image:https://img.shields.io/github/v/tag/{gh-group}/{gh-name}[GitHub tag (latest SemVer)]
 
 This library is primarily intended for use with services using generated JaxRS
 types from link:https://github.com/VEuPathDB/raml-for-jax-rs[raml-for-jaxrs].

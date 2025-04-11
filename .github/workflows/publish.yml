@@ -1,0 +1,38 @@
+name: Publish
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: 21
+        distribution: corretto
+    - name: Gradle Setup
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        cache-read-only: false
+    - name: Get published version
+      id: version_info
+      run: |
+        VERSION_CODE="v""$(gradle properties | grep 'version: ' | cut -d' ' -f2)"
+        echo $VERSION_CODE
+        echo -n "::set-output name=VERSION_CODE::$VERSION_CODE"
+    - name: Check version matches tag
+      if: ${{ steps.version_info.outputs.VERSION_CODE != github.ref_name }}
+      run: |
+        echo "Artifact version ${{ steps.version_info.outputs.VERSION_CODE }} does not match git tag ${{ github.ref_name }}
+        exit 1
+    - name: Publish with Gradle
+      run: gradle clean test publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_USERNAME: ${{ secrets.USERNAME }}
