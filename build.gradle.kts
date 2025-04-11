@@ -37,7 +37,7 @@ publishing {
   repositories {
     maven {
       name = "GitHub"
-      url = uri("https://maven.pkg.github.com/VEuPathDB/vdi-component-common")
+      url = uri("https://maven.pkg.github.com/VEuPathDB/lib-jpath-request-validation")
       credentials {
         username = System.getenv("GITHUB_USERNAME")
         password = System.getenv("GITHUB_TOKEN")
