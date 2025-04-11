@@ -18,11 +18,11 @@ jobs:
       with:
         cache-read-only: false
     - name: Build Docs
-      run: gradle dokkaHtml
+      run: gradle dokkaHtml dokkaJavadoc
     - name: Upload
       uses: actions/upload-pages-artifact@v3.0.1
       with:
-        path: build/dokka/html
+        path: build/dokka/
   deploy:
     name: Deploy API Docs
     runs-on: ubuntu-latest

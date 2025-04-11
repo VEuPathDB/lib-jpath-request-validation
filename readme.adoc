@@ -11,6 +11,8 @@ failures using JSON path notation.
 
 image:https://img.shields.io/github/license/{gh-group}/{gh-name}[title="License"]
 image:https://img.shields.io/badge/docs-dokka-ff69b4[link="https://{gh-group}.github.io/{gh-name}"]
+// image:https://img.shields.io/badge/docs-dokka-ff69b4[link="https://{gh-group}.github.io/{gh-name}/dokka"]
+// image:https://img.shields.io/badge/docs-java-27ada4[link="https://{gh-group}.github.io/{gh-name}/javadoc"]
 image:https://img.shields.io/github/v/tag/{gh-group}/{gh-name}[GitHub tag (latest SemVer)]
 
 This library is primarily intended for use with services using generated JaxRS
