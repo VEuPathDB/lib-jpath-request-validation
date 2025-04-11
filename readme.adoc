@@ -1,0 +1,140 @@
+= JSON Request Validation
+:source-highlighter: highlight.js
+:highlightjs-theme: github
+:library-version: 0.1.0
+
+A collection of tools for validating JSON requests and reporting validation
+failures using JSON path notation.
+
+This library is primarily intended for use with services using generated JaxRS
+types from link:https://github.com/VEuPathDB/raml-for-jax-rs[raml-for-jaxrs].
+
+== Usage
+
+[NOTE]
+This library is primarily intended for use with, and is most convenient in
+Kotlin, but it does support full interoperability with Java as well.
+
+.`build.gradle.kts`
+[source, kotlin, subs="attributes"]
+----
+dependencies {
+  implementation("org.veupathdb.lib:jpath-request-validation:{library-version}")
+}
+----
+
+=== Request Field Validation
+
+==== Kotlin
+
+[source, kotlin]
+----
+fun MyRequestBody.validate(): ValidationErrors {
+  val errors = ValidationErrors()
+
+  // ensure the "name" field on the request body is not null and has a length
+  // >= 3 and <= 24
+  name.reqCheckLength(JsonField.NAME, 3, 24, errors)
+
+  // if the "description" field is not null, ensure it has a length <= 4000
+  description.optCheckMaxLength(JsonField.DESCRIPTION, 4000, errors)
+
+  // call the validate function on the "options" object of type MyOptionsField,
+  // passing in the name of the field to use when forming JSON paths to
+  // sub-fields.
+  options.validate(JsonField.OPTIONS, errors)
+
+  return errors
+}
+
+fun MyOptionsField.validate(jPath: String, errors: ValidationErrors) {
+  // make the subpath for the "fields" list ahead of time so we aren't doing
+  // string concat in the loop
+  val subPath = jPath..JsonField.FIELDS
+
+  // require that the "fields" array on the object is not null
+  fields.require(subPath, errors) {
+    // iterate through the strings in the "fields" array
+    forEachIndexed { i, field ->
+      // ensure the fields are not blank
+      field.checkNonBlank(subPath, i, errors)
+    }
+  }
+}
+----
+
+==== Java
+
+[source, java]
+----
+import static org.veupathdb.lib.request.validation.Validation.checkNonBlank;
+import static org.veupathdb.lib.request.validation.Validation.optCheckMaxLength;
+import static org.veupathdb.lib.request.validation.Validation.require;
+import static org.veupathdb.lib.request.validation.Validation.reqCheckLength;
+
+public ValidationErrors validate(MyRequestBody body) {
+  var errors = new ValidationErrors();
+
+  // ensure the "name" field on the request body is not null and has a length
+  // >= 3 and <= 24
+  reqCheckLength(body.name, JsonField.NAME, 3, 24, errors);
+
+  // if the "description" field is not null, ensure it has a length <= 4000
+  optCheckMaxLength(body.description, JsonField.DESCRIPTION, 4000, errors);
+
+  // call the validate function with the "options" object of type
+  // MyOptionsField, including the name of the field to use when forming JSON
+  // paths to sub-fields.
+  validate(body.options, JsonField.OPTIONS, errors);
+}
+
+private validate(MyOptionsField options, String jPath, ValidationErrors errors) {
+  // make the subpath for the "fields" list ahead of time so we aren't doing
+  // string concat in the loop
+  var subPath = JPath.append(jPath, JsonField.FIELDS);
+
+  // require that the "fields" array on the object is not null
+  require(options.fields, subPath, errors, fields -> {
+    // iterate through the strings in the "fields" array
+    for (var i = 0; i < fields.size(); i++) {
+      // ensure the fields are not blank
+      checkNonBlank(fields.get(i), subPath, i, errors);
+    }
+  });
+}
+----
+
+=== Validation Output
+
+Using the code samples above as the setup, the output could resemble the
+following:
+
+[source, json]
+----
+{
+  "byKey": {
+    "name": [ "must not be null" ],
+    "description": [ "exceeds the max allowed length of 4000 bytes" ],
+    "options.fields[1]": [ "must not be blank" ],
+    "options.fields[8]": [ "must not be blank" ]
+  }
+}
+----
+
+== License
+
+----
+   Copyright 2023 VEuPathDB
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+----
