@@ -1,7 +1,7 @@
 = JSON Request Validation
 :source-highlighter: highlight.js
 :highlightjs-theme: github
-:library-version: 0.1.0
+:library-version: 0.1.1
 :gh-group: VEuPathDB
 :gh-name: lib-jpath-request-validation
 :lib-group: org.veupathdb.vdi

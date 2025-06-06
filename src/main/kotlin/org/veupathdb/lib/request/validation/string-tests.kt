@@ -123,7 +123,7 @@ inline fun String.checkMinLength(jPath: String, min: Int, errors: ValidationErro
  */
 inline fun String.checkMinLength(jPath: String, index: Int, min: Int, errors: ValidationErrors) {
   if (length < min)
-    errors.add(jPath..index, messageIndex.maxLengthErrorMessage(min, length))
+    errors.add(jPath..index, messageIndex.minLengthErrorMessage(min, length))
 }
 
 /**
