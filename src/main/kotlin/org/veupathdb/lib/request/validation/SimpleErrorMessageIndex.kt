@@ -30,10 +30,36 @@ class SimpleErrorMessageIndex(
    * 2. actual length
    */
   private val maxLengthErrorText: String = "exceeds the max allowed length of %1\$d bytes",
+
+  /**
+   * String format pattern used in calls to [minValueErrorMessage].
+   *
+   * The format parameters will be provided in the following order:
+   *
+   * 1. minimum value
+   * 2. actual value
+   */
+  private val minValueErrorText: String = "must be greater than or equal to %1\$s",
+
+  /**
+   * String format pattern used in calls to [maxValueErrorMessage].
+   *
+   * The format parameters will be provided in the following order:
+   *
+   * 1. maximum value
+   * 2. actual value
+   */
+  private val maxValueErrorText: String = "must be less than or equal to %1\$s",
 ): ErrorMessageIndex {
   override fun minLengthErrorMessage(min: Int, actual: Int) =
     minLengthErrorText.format(min, actual)
 
   override fun maxLengthErrorMessage(max: Int, actual: Int) =
     maxLengthErrorText.format(max, actual)
+
+  override fun <T: Number> minValueErrorMessage(min: T, actual: T) =
+    minValueErrorText.format(min.toString(), actual.toString())
+
+  override fun <T: Number> maxValueErrorMessage(max: T, actual: T) =
+    maxValueErrorText.format(max.toString(), actual.toString())
 }

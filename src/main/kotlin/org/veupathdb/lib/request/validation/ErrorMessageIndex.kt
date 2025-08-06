@@ -50,4 +50,8 @@ interface ErrorMessageIndex {
    * @return An error message formatted with the given parameters.
    */
   fun maxLengthErrorMessage(max: Int, actual: Int): String
+
+  fun <T: Number> minValueErrorMessage(min: T, actual: T): String
+
+  fun <T: Number> maxValueErrorMessage(max: T, actual: T): String
 }
