@@ -12,7 +12,7 @@ import kotlin.contracts.contract
  * Validates that the target value is greater than or equal to the given minimum
  * value.
  *
- * @receiver Target long to validate.
+ * @receiver Target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -28,7 +28,7 @@ import kotlin.contracts.contract
  *
  * @since 0.2.0
  */
-inline fun Long.checkMinimum(jPath: String, min: Long, errors: ValidationErrors): Boolean {
+inline fun Short.checkMinimum(jPath: String, min: Short, errors: ValidationErrors): Boolean {
   if (this < min) {
     errors.add(jPath, messageIndex.minValueErrorMessage(min, this))
     return false
@@ -41,7 +41,7 @@ inline fun Long.checkMinimum(jPath: String, min: Long, errors: ValidationErrors)
  * Validates that the target value is greater than or equal to the given minimum
  * value.
  *
- * @receiver Target long to validate.
+ * @receiver Target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -62,7 +62,7 @@ inline fun Long.checkMinimum(jPath: String, min: Long, errors: ValidationErrors)
  *
  * @since 0.2.0
  */
-inline fun Long.checkMinimum(jPath: String, index: Int, min: Long, errors: ValidationErrors): Boolean {
+inline fun Short.checkMinimum(jPath: String, index: Int, min: Short, errors: ValidationErrors): Boolean {
   if (this < min) {
     errors.add(jPath..index, messageIndex.minValueErrorMessage(min, this))
     return false
@@ -75,7 +75,7 @@ inline fun Long.checkMinimum(jPath: String, index: Int, min: Long, errors: Valid
  * Validates that the target value is less than or equal to the given maximum
  * value.
  *
- * @receiver Target long to validate.
+ * @receiver Target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -91,7 +91,7 @@ inline fun Long.checkMinimum(jPath: String, index: Int, min: Long, errors: Valid
  *
  * @since 0.2.0
  */
-inline fun Long.checkMaximum(jPath: String, max: Long, errors: ValidationErrors): Boolean {
+inline fun Short.checkMaximum(jPath: String, max: Short, errors: ValidationErrors): Boolean {
   if (this > max) {
     errors.add(jPath, messageIndex.maxValueErrorMessage(max, this))
     return false
@@ -104,7 +104,7 @@ inline fun Long.checkMaximum(jPath: String, max: Long, errors: ValidationErrors)
  * Validates that the target value is less than or equal to the given maximum
  * value.
  *
- * @receiver Target long to validate.
+ * @receiver Target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -125,7 +125,7 @@ inline fun Long.checkMaximum(jPath: String, max: Long, errors: ValidationErrors)
  *
  * @since 0.2.0
  */
-inline fun Long.checkMaximum(jPath: String, index: Int, max: Long, errors: ValidationErrors): Boolean {
+inline fun Short.checkMaximum(jPath: String, index: Int, max: Short, errors: ValidationErrors): Boolean {
   if (this > max) {
     errors.add(jPath..index, messageIndex.maxValueErrorMessage(max, this))
     return false
@@ -137,7 +137,7 @@ inline fun Long.checkMaximum(jPath: String, index: Int, max: Long, errors: Valid
 /**
  * Validates that the target value is within the inclusive valid range.
  *
- * @receiver Target long to validate.
+ * @receiver Target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -155,35 +155,13 @@ inline fun Long.checkMaximum(jPath: String, index: Int, max: Long, errors: Valid
  *
  * @since 0.2.0
  */
-inline fun Long.checkInRange(jPath: String, min: Long, max: Long, errors: ValidationErrors) =
+inline fun Short.checkInRange(jPath: String, min: Short, max: Short, errors: ValidationErrors) =
   checkMinimum(jPath, min, errors) && checkMaximum(jPath, max, errors)
 
 /**
  * Validates that the target value is within the inclusive valid range.
  *
- * @receiver Target long to validate.
- *
- * @param jPath JSON path to the element being checked.
- *
- * Example: `"meta.publication[i].citation"`
- *
- * @param range Valid value range.
- *
- * @param errors Validation error collection into which any validation errors
- * will be added.
- *
- * @see checkMinimum
- * @see checkMaximum
- *
- * @since 0.2.0
- */
-inline fun Long.checkInRange(jPath: String, range: LongRange, errors: ValidationErrors) =
-  checkMinimum(jPath, range.first, errors) && checkMaximum(jPath, range.last, errors)
-
-/**
- * Validates that the target value is within the inclusive valid range.
- *
- * @receiver Target long to validate.
+ * @receiver Target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -206,35 +184,8 @@ inline fun Long.checkInRange(jPath: String, range: LongRange, errors: Validation
  *
  * @since 0.2.0
  */
-inline fun Long.checkInRange(jPath: String, index: Int, min: Long, max: Long, errors: ValidationErrors) =
+inline fun Short.checkInRange(jPath: String, index: Int, min: Short, max: Short, errors: ValidationErrors) =
   checkMinimum(jPath, index, min, errors) && checkMaximum(jPath, index, max, errors)
-
-/**
- * Validates that the target value is within the inclusive valid range.
- *
- * @receiver Target long to validate.
- *
- * @param jPath JSON path to the element being checked.
- *
- * Example: `"meta.publication[i].citation"`
- *
- * @param index Index of the target string in a parent collection.
- *
- * This value will be added to the JSON path when recording any validation
- * errors.
- *
- * @param range Valid value range.
- *
- * @param errors Validation error collection into which any validation errors
- * will be added.
- *
- * @see checkMinimum
- * @see checkMaximum
- *
- * @since 0.2.0
- */
-inline fun Long.checkInRange(jPath: String, index: Int, range: LongRange, errors: ValidationErrors) =
-  checkMinimum(jPath, index, range.first, errors) && checkMaximum(jPath, index, range.last, errors)
 
 // endregion Non Null
 
@@ -244,7 +195,7 @@ inline fun Long.checkInRange(jPath: String, index: Int, range: LongRange, errors
  * Validates that the optional target value is greater than or equal to the
  * given minimum value if present
  *
- * @receiver Optional target long to validate.
+ * @receiver Optional target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -260,14 +211,14 @@ inline fun Long.checkInRange(jPath: String, index: Int, range: LongRange, errors
  *
  * @since 0.2.0
  */
-inline fun Long?.optCheckMinimum(jPath: String, min: Long, errors: ValidationErrors) =
+inline fun Short?.optCheckMinimum(jPath: String, min: Short, errors: ValidationErrors) =
   this?.checkMinimum(jPath, min, errors) ?: true
 
 /**
  * Validates that the optional target value is greater than or equal to the
  * given minimum value if present
  *
- * @receiver Optional target long to validate.
+ * @receiver Optional target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -288,14 +239,14 @@ inline fun Long?.optCheckMinimum(jPath: String, min: Long, errors: ValidationErr
  *
  * @since 0.2.0
  */
-inline fun Long?.optCheckMinimum(jPath: String, index: Int, min: Long, errors: ValidationErrors) =
+inline fun Short?.optCheckMinimum(jPath: String, index: Int, min: Short, errors: ValidationErrors) =
   this?.checkMinimum(jPath, index, min, errors) ?: true
 
 /**
  * Validates that the optional target value is less than or equal to the
  * given maximum value if present
  *
- * @receiver Optional target long to validate.
+ * @receiver Optional target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -311,14 +262,14 @@ inline fun Long?.optCheckMinimum(jPath: String, index: Int, min: Long, errors: V
  *
  * @since 0.2.0
  */
-inline fun Long?.optCheckMaximum(jPath: String, max: Long, errors: ValidationErrors) =
+inline fun Short?.optCheckMaximum(jPath: String, max: Short, errors: ValidationErrors) =
   this?.checkMaximum(jPath, max, errors) ?: true
 
 /**
  * Validates that the optional target value is less than or equal to the
  * given maximum value if present
  *
- * @receiver Optional target long to validate.
+ * @receiver Optional target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -339,14 +290,14 @@ inline fun Long?.optCheckMaximum(jPath: String, max: Long, errors: ValidationErr
  *
  * @since 0.2.0
  */
-inline fun Long?.optCheckMaximum(jPath: String, index: Int, max: Long, errors: ValidationErrors) =
+inline fun Short?.optCheckMaximum(jPath: String, index: Int, max: Short, errors: ValidationErrors) =
   this?.checkMaximum(jPath, index, max, errors) ?: true
 
 /**
  * Validates that the optional target value is within the inclusive valid range
  * if present.
  *
- * @receiver Optional target long to validate.
+ * @receiver Optional target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -364,7 +315,7 @@ inline fun Long?.optCheckMaximum(jPath: String, index: Int, max: Long, errors: V
  *
  * @since 0.2.0
  */
-inline fun Long?.optCheckInRange(jPath: String, min: Long, max: Long, errors: ValidationErrors) =
+inline fun Short?.optCheckInRange(jPath: String, min: Short, max: Short, errors: ValidationErrors) =
   this?.let {
     it.checkMinimum(jPath, min, errors)
     it.checkMaximum(jPath, max, errors)
@@ -374,33 +325,7 @@ inline fun Long?.optCheckInRange(jPath: String, min: Long, max: Long, errors: Va
  * Validates that the optional target value is within the inclusive valid range
  * if present.
  *
- * @receiver Optional target long to validate.
- *
- * @param jPath JSON path to the element being checked.
- *
- * Example: `"meta.publication[i].citation"`
- *
- * @param range Valid value range.
- *
- * @param errors Validation error collection into which any validation errors
- * will be added.
- *
- * @see optCheckMinimum
- * @see optCheckMaximum
- *
- * @since 0.2.0
- */
-inline fun Long?.optCheckInRange(jPath: String, range: LongRange, errors: ValidationErrors) =
-  this?.let {
-    it.checkMinimum(jPath, range.first, errors)
-    it.checkMaximum(jPath, range.last, errors)
-  } ?: true
-
-/**
- * Validates that the optional target value is within the inclusive valid range
- * if present.
- *
- * @receiver Optional target long to validate.
+ * @receiver Optional target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -423,41 +348,10 @@ inline fun Long?.optCheckInRange(jPath: String, range: LongRange, errors: Valida
  *
  * @since 0.2.0
  */
-inline fun Long?.optCheckInRange(jPath: String, index: Int, min: Long, max: Long, errors: ValidationErrors) =
+inline fun Short?.optCheckInRange(jPath: String, index: Int, min: Short, max: Short, errors: ValidationErrors) =
   this?.let {
     it.checkMinimum(jPath, index, min, errors)
     it.checkMaximum(jPath, index, max, errors)
-  }
-
-/**
- * Validates that the optional target value is within the inclusive valid range
- * if present.
- *
- * @receiver Optional target long to validate.
- *
- * @param jPath JSON path to the element being checked.
- *
- * Example: `"meta.publication[i].citation"`
- *
- * @param index Index of the target string in a parent collection.
- *
- * This value will be added to the JSON path when recording any validation
- * errors.
- *
- * @param range Valid value range.
- *
- * @param errors Validation error collection into which any validation errors
- * will be added.
- *
- * @see optCheckMinimum
- * @see optCheckMaximum
- *
- * @since 0.2.0
- */
-inline fun Long?.optCheckInRange(jPath: String, index: Int, range: LongRange, errors: ValidationErrors) =
-  this?.let {
-    it.checkMinimum(jPath, index, range.first, errors)
-    it.checkMaximum(jPath, index, range.last, errors)
   }
 
 // endregion Optional
@@ -468,7 +362,7 @@ inline fun Long?.optCheckInRange(jPath: String, index: Int, range: LongRange, er
  * Validates that the nullable target value is present and is greater than or
  * equal to the given minimum value.
  *
- * @receiver Nullable target long to validate.
+ * @receiver Nullable target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -485,7 +379,7 @@ inline fun Long?.optCheckInRange(jPath: String, index: Int, range: LongRange, er
  * @since 0.2.0
  */
 @OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckMinimum(jPath: String, min: Long, errors: ValidationErrors): Boolean {
+inline fun Short?.reqCheckMinimum(jPath: String, min: Short, errors: ValidationErrors): Boolean {
   contract { returns(true) implies(this@reqCheckMinimum != null) }
 
   return this?.checkMinimum(jPath, min, errors)
@@ -496,7 +390,7 @@ inline fun Long?.reqCheckMinimum(jPath: String, min: Long, errors: ValidationErr
  * Validates that the nullable target value is present and is greater than or
  * equal to the given minimum value.
  *
- * @receiver Nullable target long to validate.
+ * @receiver Nullable target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -513,7 +407,7 @@ inline fun Long?.reqCheckMinimum(jPath: String, min: Long, errors: ValidationErr
  * @since 0.2.0
  */
 @OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckMinimum(jPath: String, index: Int, min: Long, errors: ValidationErrors): Boolean {
+inline fun Short?.reqCheckMinimum(jPath: String, index: Int, min: Short, errors: ValidationErrors): Boolean {
   contract { returns(true) implies(this@reqCheckMinimum != null) }
 
   return this?.checkMinimum(jPath, index, min, errors)
@@ -524,7 +418,7 @@ inline fun Long?.reqCheckMinimum(jPath: String, index: Int, min: Long, errors: V
  * Validates that the nullable target value is present and is less than or
  * equal to the given maximum value.
  *
- * @receiver Nullable target long to validate.
+ * @receiver Nullable target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -541,7 +435,7 @@ inline fun Long?.reqCheckMinimum(jPath: String, index: Int, min: Long, errors: V
  * @since 0.2.0
  */
 @OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckMaximum(jPath: String, max: Long, errors: ValidationErrors): Boolean {
+inline fun Short?.reqCheckMaximum(jPath: String, max: Short, errors: ValidationErrors): Boolean {
   contract { returns(true) implies(this@reqCheckMaximum != null) }
 
   return this?.checkMaximum(jPath, max, errors)
@@ -552,7 +446,7 @@ inline fun Long?.reqCheckMaximum(jPath: String, max: Long, errors: ValidationErr
  * Validates that the nullable target value is present and is less than or
  * equal to the given maximum value.
  *
- * @receiver Nullable target long to validate.
+ * @receiver Nullable target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -569,7 +463,7 @@ inline fun Long?.reqCheckMaximum(jPath: String, max: Long, errors: ValidationErr
  * @since 0.2.0
  */
 @OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckMaximum(jPath: String, index: Int, max: Long, errors: ValidationErrors): Boolean {
+inline fun Short?.reqCheckMaximum(jPath: String, index: Int, max: Short, errors: ValidationErrors): Boolean {
   contract { returns(true) implies(this@reqCheckMaximum != null) }
 
   return this?.checkMaximum(jPath, index, max, errors)
@@ -580,7 +474,7 @@ inline fun Long?.reqCheckMaximum(jPath: String, index: Int, max: Long, errors: V
  * Validates that the nullable target value is present and is within the
  * inclusive valid range.
  *
- * @receiver Nullable target long to validate.
+ * @receiver Nullable target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -599,7 +493,7 @@ inline fun Long?.reqCheckMaximum(jPath: String, index: Int, max: Long, errors: V
  * @since 0.2.0
  */
 @OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckInRange(jPath: String, min: Long, max: Long, errors: ValidationErrors): Boolean {
+inline fun Short?.reqCheckInRange(jPath: String, min: Short, max: Short, errors: ValidationErrors): Boolean {
   contract { returns(true) implies(this@reqCheckInRange != null) }
 
   return this?.let { it.checkMinimum(jPath, min, errors) && it.checkMaximum(jPath, max, errors) }
@@ -610,35 +504,7 @@ inline fun Long?.reqCheckInRange(jPath: String, min: Long, max: Long, errors: Va
  * Validates that the nullable target value is present and is within the
  * inclusive valid range.
  *
- * @receiver Nullable target long to validate.
- *
- * @param jPath JSON path to the element being checked.
- *
- * Example: `"meta.publication[i].citation"`
- *
- * @param range Valid value range.
- *
- * @param errors Validation error collection into which any validation errors
- * will be added.
- *
- * @see reqCheckMinimum
- * @see reqCheckMaximum
- *
- * @since 0.2.0
- */
-@OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckInRange(jPath: String, range: LongRange, errors: ValidationErrors): Boolean {
-  contract { returns(true) implies(this@reqCheckInRange != null) }
-
-  return this?.let { it.checkMinimum(jPath, range.first, errors) && it.checkMaximum(jPath, range.last, errors) }
-    ?: false.also { errors.add(jPath, messageIndex.nullErrorMessage) }
-}
-
-/**
- * Validates that the nullable target value is present and is within the
- * inclusive valid range.
- *
- * @receiver Nullable target long to validate.
+ * @receiver Nullable target short to validate.
  *
  * @param jPath JSON path to the element being checked.
  *
@@ -662,43 +528,10 @@ inline fun Long?.reqCheckInRange(jPath: String, range: LongRange, errors: Valida
  * @since 0.2.0
  */
 @OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckInRange(jPath: String, index: Int, min: Long, max: Long, errors: ValidationErrors): Boolean {
+inline fun Short?.reqCheckInRange(jPath: String, index: Int, min: Short, max: Short, errors: ValidationErrors): Boolean {
   contract { returns(true) implies(this@reqCheckInRange != null) }
 
   return this?.let { it.checkMinimum(jPath, index, min, errors) && it.checkMaximum(jPath, index, max, errors) }
-    ?: false.also { errors.add(jPath..index, messageIndex.nullErrorMessage) }
-}
-
-/**
- * Validates that the nullable target value is present and is within the
- * inclusive valid range.
- *
- * @receiver Nullable target long to validate.
- *
- * @param jPath JSON path to the element being checked.
- *
- * Example: `"meta.publication[i].citation"`
- *
- * @param index Index of the target string in a parent collection.
- *
- * This value will be added to the JSON path when recording any validation
- * errors.
- *
- * @param range Valid value range.
- *
- * @param errors Validation error collection into which any validation errors
- * will be added.
- *
- * @see reqCheckMinimum
- * @see reqCheckMaximum
- *
- * @since 0.2.0
- */
-@OptIn(ExperimentalContracts::class)
-inline fun Long?.reqCheckInRange(jPath: String, index: Int, range: LongRange, errors: ValidationErrors): Boolean {
-  contract { returns(true) implies(this@reqCheckInRange != null) }
-
-  return this?.let { it.checkMinimum(jPath, index, range.first, errors) && it.checkMaximum(jPath, index, range.last, errors) }
     ?: false.also { errors.add(jPath..index, messageIndex.nullErrorMessage) }
 }
 
