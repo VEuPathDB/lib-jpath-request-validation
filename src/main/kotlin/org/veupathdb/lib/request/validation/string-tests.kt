@@ -160,6 +160,70 @@ inline fun String.checkLength(jPath: String, min: Int, max: Int, errors: Validat
  * Validates that the length of the target string in characters is not less than
  * the given minimum, and the length in bytes does not exceed the given maximum.
  *
+ * Measuring the max length in bytes is done to avoid errors from databases
+ * which define maximum column sizes in bytes rather than characters.
+ *
+ * @receiver Target string to validate.
+ *
+ * @param jPath JSON path to the element being checked.
+ *
+ * Example: `"meta.publication[i].citation"`
+ *
+ * @param range Inclusive range of minimum to maximum valid lengths.
+ *
+ * @param errors Validation error collection into which any validation errors
+ * will be added.
+ *
+ * @see checkMinLength
+ * @see checkMaxLength
+ *
+ * @since 0.4.0
+ */
+inline fun String.checkLength(jPath: String, range: IntRange, errors: ValidationErrors) {
+  checkMinLength(jPath, range.first, errors)
+  checkMaxLength(jPath, range.last, errors)
+}
+
+/**
+ * Validates that the length of the target string in characters is not less than
+ * the given minimum, and the length in bytes does not exceed the given maximum.
+ *
+ * This method takes the additional [index] parameter to avoid unnecessary
+ * string concatenations in loops.
+ *
+ * Measuring the max length in bytes is done to avoid errors from databases
+ * which define maximum column sizes in bytes rather than characters.
+ *
+ * @receiver Target string to validate.
+ *
+ * @param jPath JSON path to the element being checked.
+ *
+ * Example: `"meta.publication[i].citation"`
+ *
+ * @param index Index of the target string in a parent collection.
+ *
+ * This value will be added to the JSON path when recording any validation
+ * errors.
+ *
+ * @param range Inclusive range of minimum to maximum valid lengths.
+ *
+ * @param errors Validation error collection into which any validation errors
+ * will be added.
+ *
+ * @see checkMinLength
+ * @see checkMaxLength
+ *
+ * @since 0.4.0
+ */
+inline fun String.checkLength(jPath: String, index: Int, range: IntRange, errors: ValidationErrors) {
+  checkMinLength(jPath, index, range.first, errors)
+  checkMaxLength(jPath, index, range.last, errors)
+}
+
+/**
+ * Validates that the length of the target string in characters is not less than
+ * the given minimum, and the length in bytes does not exceed the given maximum.
+ *
  * This method takes the additional [index] parameter to avoid unnecessary
  * string concatenations in loops.
  *
@@ -217,6 +281,7 @@ inline fun String.checkLength(jPath: String, index: Int, min: Int, max: Int, err
  *
  * @since 0.1.0
  */
+@Deprecated("superfluous due to String.checkMaxLength")
 inline fun String?.optCheckMaxLength(jPath: String, max: Int, errors: ValidationErrors) {
   this?.toByteArray()?.size?.also { if (it > max) errors.add(jPath, messageIndex.maxLengthErrorMessage(max, it)) }
 }
@@ -252,6 +317,7 @@ inline fun String?.optCheckMaxLength(jPath: String, max: Int, errors: Validation
  *
  * @since 0.1.0
  */
+@Deprecated("superfluous due to String.checkMaxLength")
 inline fun String?.optCheckMaxLength(jPath: String, index: Int, max: Int, errors: ValidationErrors) {
   this?.toByteArray()?.size?.also { if (it > max) errors.add(jPath..index, messageIndex.maxLengthErrorMessage(max, it)) }
 }
@@ -276,6 +342,7 @@ inline fun String?.optCheckMaxLength(jPath: String, index: Int, max: Int, errors
  *
  * @since 0.1.0
  */
+@Deprecated("superfluous due to String.checkMinLength")
 inline fun String?.optCheckMinLength(jPath: String, min: Int, errors: ValidationErrors) {
   if (this != null && length < min)
     errors.add(jPath, messageIndex.minLengthErrorMessage(min, length))
@@ -309,6 +376,7 @@ inline fun String?.optCheckMinLength(jPath: String, min: Int, errors: Validation
  *
  * @since 0.1.0
  */
+@Deprecated("superfluous due to String.checkMinLength")
 inline fun String?.optCheckMinLength(jPath: String, index: Int, min: Int, errors: ValidationErrors) {
   if (this != null && length < min)
     errors.add(jPath..index, messageIndex.minLengthErrorMessage(min, length))
@@ -340,6 +408,7 @@ inline fun String?.optCheckMinLength(jPath: String, index: Int, min: Int, errors
  *
  * @since 0.1.0
  */
+@Deprecated("superfluous due to String.checkLength")
 inline fun String?.optCheckLength(jPath: String, min: Int, max: Int, errors: ValidationErrors) {
   if (this != null) {
     checkMinLength(jPath, min, errors)
@@ -381,6 +450,7 @@ inline fun String?.optCheckLength(jPath: String, min: Int, max: Int, errors: Val
  *
  * @since 0.1.0
  */
+@Deprecated("superfluous due to String.checkLength")
 inline fun String?.optCheckLength(jPath: String, index: Int, min: Int, max: Int, errors: ValidationErrors) {
   if (this != null) {
     checkMinLength(jPath, index, min, errors)

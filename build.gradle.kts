@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.veupathdb.lib"
-version = "0.3.0"
+version = "0.4.0"
 description = "Tools for validating JSON requests and reporting validation failures using JSON path notation."
 
 repositories {
