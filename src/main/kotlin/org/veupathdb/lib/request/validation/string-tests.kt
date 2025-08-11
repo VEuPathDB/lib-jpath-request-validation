@@ -6,6 +6,8 @@ package org.veupathdb.lib.request.validation
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 
+// region Already Not Null
+
 /**
  * Validates that the length of the target string in bytes does not exceed the
  * given maximum.
@@ -258,6 +260,8 @@ inline fun String.checkLength(jPath: String, index: Int, min: Int, max: Int, err
   checkMaxLength(jPath, index, max, errors)
 }
 
+// end region Already Not Null
+
 /**
  * Optionally validates that the length of the target string in bytes does not
  * exceed the given maximum if the string is not `null`.
@@ -458,6 +462,8 @@ inline fun String?.optCheckLength(jPath: String, index: Int, min: Int, max: Int,
   }
 }
 
+// region Enforce Not Null
+
 /**
  * Requires that the target string is not `null` or [blank][String.isBlank],
  * then validates that the length of the string in bytes does not exceed the
@@ -620,6 +626,35 @@ inline fun String?.reqCheckLength(jPath: String, min: Int, max: Int, errors: Val
  * then validates that the length of the string in characters is not less than
  * the given minimum, and the length in bytes does not exceed the given maximum.
  *
+ * Measuring the max length in bytes is done to avoid errors from databases
+ * which define maximum column sizes in bytes rather than characters.
+ *
+ * @receiver Target string to validate.
+ *
+ * @param jPath JSON path to the element being checked.
+ *
+ * Example: `"meta.publication[i].citation"`
+ *
+ * @param range Inclusive range of minimum to maximum valid lengths.
+ *
+ * @param errors Validation error collection into which any validation errors
+ * will be added.
+ *
+ * @see reqCheckMinLength
+ * @see reqCheckMaxLength
+ *
+ * @since 0.5.0
+ */
+inline fun String?.reqCheckLength(jPath: String, range: IntRange, errors: ValidationErrors) {
+  if (checkNonBlank(jPath, errors))
+    checkLength(jPath, range.first, range.last, errors)
+}
+
+/**
+ * Requires that the target string is not `null` or [blank][String.isBlank],
+ * then validates that the length of the string in characters is not less than
+ * the given minimum, and the length in bytes does not exceed the given maximum.
+ *
  * This method takes the additional [index] parameter to avoid unnecessary
  * string concatenations in loops.
  *
@@ -654,6 +689,42 @@ inline fun String?.reqCheckLength(jPath: String, index: Int, min: Int, max: Int,
     checkLength(jPath, index, min, max, errors)
 }
 
+/**
+ * Requires that the target string is not `null` or [blank][String.isBlank],
+ * then validates that the length of the string in characters is not less than
+ * the given minimum, and the length in bytes does not exceed the given maximum.
+ *
+ * This method takes the additional [index] parameter to avoid unnecessary
+ * string concatenations in loops.
+ *
+ * Measuring the max length in bytes is done to avoid errors from databases
+ * which define maximum column sizes in bytes rather than characters.
+ *
+ * @receiver Target string to validate.
+ *
+ * @param jPath JSON path to the element being checked.
+ *
+ * Example: `"meta.publication[i].citation"`
+ *
+ * @param index Index of the target string in a parent collection.
+ *
+ * This value will be added to the JSON path when recording any validation
+ * errors.
+ *
+ * @param range Inclusive range of minimum to maximum valid lengths.
+ *
+ * @param errors Validation error collection into which any validation errors
+ * will be added.
+ *
+ * @see reqCheckMinLength
+ * @see reqCheckMaxLength
+ *
+ * @since 0.5.0
+ */
+inline fun String?.reqCheckLength(jPath: String, index: Int, range: IntRange, errors: ValidationErrors) {
+  if (checkNonBlank(jPath, index, errors))
+    checkLength(jPath, index, range.first, range.last, errors)
+}
 
 /**
  * Requires that the target string is not `null` or [blank][String.isBlank]
@@ -718,3 +789,5 @@ inline fun String?.checkNonBlank(jPath: String, index: Int, errors: ValidationEr
 
   return false
 }
+
+// endregion Enforce Not Null
