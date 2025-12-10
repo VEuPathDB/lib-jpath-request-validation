@@ -1,11 +1,11 @@
 plugins {
-  kotlin("jvm") version "2.2.21"
-  id("org.jetbrains.dokka") version "2.1.0"
+  alias(libs.plugins.kotlin)
+  alias(libs.plugins.dokka)
   `maven-publish`
 }
 
 group = "org.veupathdb.lib"
-version = "0.6.0"
+version = "0.7.0"
 description = "Tools for validating JSON requests and reporting validation failures using JSON path notation."
 
 repositories {
