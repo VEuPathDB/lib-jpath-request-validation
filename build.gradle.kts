@@ -1,6 +1,7 @@
 plugins {
   alias(libs.plugins.kotlin)
-  alias(libs.plugins.dokka)
+  alias(libs.plugins.dokka.base)
+  alias(libs.plugins.dokka.jdoc)
   `maven-publish`
 }
 
@@ -24,7 +25,7 @@ java {
 }
 
 val makeJavadocs = tasks.register<Jar>("makeJavadocs") {
-  dependsOn(tasks.dokkaJavadoc)
+  dependsOn(tasks.dokkaGenerateJavadoc)
   archiveClassifier.set("javadoc")
   from(file("build/dokka/javadoc"))
 }
